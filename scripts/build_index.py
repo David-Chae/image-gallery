@@ -5,16 +5,21 @@ import sys
 import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from config import (
     ROOT_DIR,
     DB_PATH,
     THUMB_CACHE_DIR,
     IMAGE_EXTS,
     THUMB_SIZE,
+    ENABLE_THUMBNAILS_DURING_INDEX,
     DISCOVERY_PRINT_EVERY,
     PROGRESS_PRINT_INTERVAL,
     BATCH_COMMIT_EVERY,
-    ENABLE_THUMBNAILS_DURING_INDEX,
     SQLITE_JOURNAL_MODE,
     SQLITE_SYNCHRONOUS,
     SKIP_STARTUP_INTEGRITY_CHECK,
@@ -22,15 +27,11 @@ from config import (
     SKIP_FTS_REBUILD,
 )
 
-# 썸네일을 쓰려면 Pillow 설치 후 True로 바꾸세요.
 ENABLE_THUMBNAILS = ENABLE_THUMBNAILS_DURING_INDEX
 
 if ENABLE_THUMBNAILS:
     from PIL import Image, ImageOps
 
-# =========================
-# 설정
-# =========================
 
 def log(message: str):
     print(message, flush=True)
@@ -50,9 +51,6 @@ def ensure_thumb_cache_dir():
 
 
 def make_thumbnail(source_path: Path, album_id: int) -> str:
-    """
-    thumb_cache/{album_id}.jpg 생성
-    """
     ensure_thumb_cache_dir()
     thumb_path = THUMB_CACHE_DIR / f"{album_id}.jpg"
 
@@ -89,10 +87,8 @@ def connect_db(db_path: Path) -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
 
     cur = conn.cursor()
-
-    # 초대형 작업에서 보수적으로 감
-    cur.execute("PRAGMA journal_mode=DELETE;")
-    cur.execute("PRAGMA synchronous=FULL;")
+    cur.execute(f"PRAGMA journal_mode={SQLITE_JOURNAL_MODE};")
+    cur.execute(f"PRAGMA synchronous={SQLITE_SYNCHRONOUS};")
     cur.execute("PRAGMA temp_store=MEMORY;")
     cur.execute("PRAGMA foreign_keys=OFF;")
 
@@ -227,22 +223,6 @@ def discover_folders(root_dir: Path) -> List[Path]:
 
 
 def scan_folder_images_light(folder: Path) -> Tuple[int, Optional[str], Optional[str], Optional[Path]]:
-    """
-    초대형 데이터셋용 경량 스캔.
-    폴더 안에서 이미지 파일만 찾고:
-    - 이미지 개수
-    - 첫 이미지 파일명
-    - 가벼운 변경 감지용 approx_signature
-    - 첫 이미지 Path
-    를 반환
-
-    approx_signature는 다음 정보 기반:
-    - 첫 이미지 파일명
-    - 마지막 이미지 파일명
-    - 이미지 개수
-
-    정확도는 약간 낮지만 전체 파일 stat()를 안 해서 훨씬 가볍습니다.
-    """
     image_names = []
 
     try:
@@ -583,9 +563,6 @@ def build_index():
     safe_commit(conn)
 
     log("Updating app metadata...")
-    update_app_meta(conn)
-
-        log("Updating app metadata...")
     update_app_meta(conn)
 
     if SKIP_FTS_REBUILD:
