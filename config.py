@@ -14,7 +14,7 @@ PLACEHOLDER_PATH = STATIC_DIR / "placeholder.jpg"
 
 # ---- Gallery / thumbnails ----
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp"}
-THUMB_SIZE = (320, 320)
+THUMB_SIZE = (320, 320) # HDD: (256, 256), SSD/NVMe: (320, 320) 권장
 JPEG_QUALITY = 75
 
 # ---- Web app ----
@@ -32,7 +32,7 @@ BATCH_COMMIT_EVERY = 200
 
 # ---- Thumbnail batch generation ----
 MAX_WORKERS = 4   # HDD: 2~4, SSD/NVMe: 4~8 권장
-CHUNK_SIZE = 2000 # 작업 제출 단위
+CHUNK_SIZE = 2000 # 작업 제출 단위 HDD: 1000, SSD: 2000, NVMe: 3000 권장 
 
 # ---- DB behavior ----
 SQLITE_JOURNAL_MODE = "DELETE"
