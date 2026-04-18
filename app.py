@@ -7,8 +7,6 @@ import time
 from flask import Flask, render_template, request, abort, send_file, jsonify
 from PIL import Image, ImageOps
 
-app = Flask(__name__)
-
 from config import (
     DB_PATH,
     THUMB_CACHE_DIR,
@@ -21,6 +19,7 @@ from config import (
     DEBUG,
 )
 
+app = Flask(__name__)
 
 def ensure_thumb_cache_dir():
     THUMB_CACHE_DIR.mkdir(parents=True, exist_ok=True)
