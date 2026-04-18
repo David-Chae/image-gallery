@@ -8,13 +8,17 @@ import time
 
 app = Flask(__name__)
 
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "gallery.db"
-THUMB_CACHE_DIR = BASE_DIR / "thumb_cache"
-THUMB_SIZE = (320, 320)
-PAGE_SIZE_DEFAULT = 25
-PAGE_SIZE_MAX = 200
-PLACEHOLDER_PATH = BASE_DIR / "static" / "placeholder.jpg"
+from config import (
+    DB_PATH,
+    THUMB_CACHE_DIR,
+    THUMB_SIZE,
+    PAGE_SIZE_DEFAULT,
+    PAGE_SIZE_MAX,
+    PLACEHOLDER_PATH,
+    HOST,
+    PORT,
+    DEBUG,
+)
 
 
 def ensure_thumb_cache_dir():
