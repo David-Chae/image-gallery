@@ -3,7 +3,13 @@ import time
 import sqlite3
 from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor, as_completed
+
 from PIL import Image, ImageOps
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from config import (
     DB_PATH,
     THUMB_CACHE_DIR,
@@ -13,6 +19,7 @@ from config import (
     CHUNK_SIZE,
     PROGRESS_PRINT_INTERVAL,
 )
+
 
 def log(message: str):
     print(message, flush=True)
