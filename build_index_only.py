@@ -10,7 +10,7 @@ from typing import Dict, List, Optional, Tuple
 # 설정
 # =========================
 BASE_DIR = Path(__file__).resolve().parent
-ROOT_DIR = Path(r"E:\miscellaneous\hitomi")   # 반드시 수정
+ROOT_DIR = Path(r"E:\")   # Replace with the root directory which has the folders containing the images.
 DB_PATH = BASE_DIR / "gallery.db"
 
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp"}
