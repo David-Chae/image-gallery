@@ -4,7 +4,8 @@ import os
 PROJECT_ROOT = Path(__file__).resolve().parent
 
 # ---- Core paths ----
-ROOT_DIR = Path(os.environ.get("IMAGE_GALLERY_ROOT", r"E:\")) # Please replace "E:\" with your root directory containing folders of images.
+# Please replace "E:\" with your root directory containing folders of images.
+ROOT_DIR = Path(os.environ.get("IMAGE_GALLERY_ROOT", r"E:\")) 
 DB_PATH = PROJECT_ROOT / "gallery.db"
 THUMB_CACHE_DIR = PROJECT_ROOT / "thumb_cache"
 STATIC_DIR = PROJECT_ROOT / "static"
