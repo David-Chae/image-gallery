@@ -31,8 +31,8 @@ PROGRESS_PRINT_INTERVAL = 1.0
 BATCH_COMMIT_EVERY = 200
 
 # ---- Thumbnail batch generation ----
-MAX_WORKERS = 4
-CHUNK_SIZE = 2000
+MAX_WORKERS = 4   # HDD: 2~4, SSD/NVMe: 4~8 권장
+CHUNK_SIZE = 2000 # 작업 제출 단위
 
 # ---- DB behavior ----
 SQLITE_JOURNAL_MODE = "DELETE"
