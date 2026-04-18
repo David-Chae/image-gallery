@@ -2,9 +2,10 @@ import math
 import sqlite3
 from pathlib import Path
 import hashlib
+import time
+
 from flask import Flask, render_template, request, abort, send_file, jsonify
 from PIL import Image, ImageOps
-import time
 
 app = Flask(__name__)
 
