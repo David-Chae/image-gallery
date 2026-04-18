@@ -5,9 +5,25 @@ import sys
 import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+from config import (
+    ROOT_DIR,
+    DB_PATH,
+    THUMB_CACHE_DIR,
+    IMAGE_EXTS,
+    THUMB_SIZE,
+    DISCOVERY_PRINT_EVERY,
+    PROGRESS_PRINT_INTERVAL,
+    BATCH_COMMIT_EVERY,
+    ENABLE_THUMBNAILS_DURING_INDEX,
+    SQLITE_JOURNAL_MODE,
+    SQLITE_SYNCHRONOUS,
+    SKIP_STARTUP_INTEGRITY_CHECK,
+    SKIP_FINAL_INTEGRITY_CHECK,
+    SKIP_FTS_REBUILD,
+)
 
 # 썸네일을 쓰려면 Pillow 설치 후 True로 바꾸세요.
-ENABLE_THUMBNAILS = False
+ENABLE_THUMBNAILS = ENABLE_THUMBNAILS_DURING_INDEX
 
 if ENABLE_THUMBNAILS:
     from PIL import Image, ImageOps
@@ -15,21 +31,6 @@ if ENABLE_THUMBNAILS:
 # =========================
 # 설정
 # =========================
-BASE_DIR = Path(__file__).resolve().parent
-ROOT_DIR = Path(r"E:\miscellaneous\hitomi")   # 반드시 수정
-DB_PATH = BASE_DIR / "gallery.db"
-THUMB_CACHE_DIR = BASE_DIR / "thumb_cache"
-
-IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp"}
-THUMB_SIZE = (320, 320)
-
-DISCOVERY_PRINT_EVERY = 2000
-PROGRESS_PRINT_INTERVAL = 1.0
-BATCH_COMMIT_EVERY = 200
-
-SKIP_STARTUP_INTEGRITY_CHECK = True
-SKIP_FINAL_INTEGRITY_CHECK = True
-SKIP_FTS_REBUILD = True
 
 def log(message: str):
     print(message, flush=True)
