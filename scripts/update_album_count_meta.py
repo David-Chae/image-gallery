@@ -1,8 +1,9 @@
 import sqlite3
 from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "gallery.db"
+from config import (
+    ROOT_DIR,
+    DB_PATH,
+)
 
 conn = sqlite3.connect(str(DB_PATH))
 cur = conn.cursor()
