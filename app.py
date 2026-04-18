@@ -392,4 +392,4 @@ def api_health():
 if __name__ == "__main__":
     if not DB_PATH.exists():
         print("gallery.db not found. Run build_index.py first.", flush=True)
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host=HOST, port=PORT, debug=DEBUG)
