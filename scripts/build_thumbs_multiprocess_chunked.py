@@ -3,24 +3,16 @@ import time
 import sqlite3
 from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor, as_completed
-
 from PIL import Image, ImageOps
-
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "gallery.db"
-THUMB_CACHE_DIR = BASE_DIR / "thumb_cache"
-
-THUMB_SIZE = (320, 320)
-JPEG_QUALITY = 82
-
-# HDD면 2~4 권장, SSD/NVMe면 4~8 권장
-MAX_WORKERS = 4
-
-# 한 번에 워커 풀에 넣을 작업 수
-CHUNK_SIZE = 2000
-
-PROGRESS_PRINT_INTERVAL = 1.0
-
+from config import (
+    DB_PATH,
+    THUMB_CACHE_DIR,
+    THUMB_SIZE,
+    JPEG_QUALITY,
+    MAX_WORKERS,
+    CHUNK_SIZE,
+    PROGRESS_PRINT_INTERVAL,
+)
 
 def log(message: str):
     print(message, flush=True)
