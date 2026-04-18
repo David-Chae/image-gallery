@@ -20,6 +20,6 @@ This project indexes local folders into SQLite, generates thumbnail caches, and 
 
 ```bash
 pip install -r requirements.txt
-python build_index.py
-python build_thumbs_multiprocess_chunked.py
+python scripts/build_index.py
+python scripts/build_thumbs_multiprocess_chunked.py
 python app.py
