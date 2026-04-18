@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>로컬 갤러리</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="page-dark">
+  <header class="site-header">
+    <div class="container">
+      <div class="header-row">
+        <div class="header-main">
+          <h1 class="site-title">로컬 갤러리</h1>
+          <p class="site-subtitle">폴더 이름 검색 / 페이지네이션 / 썸네일 캐시</p>
+        </div>
+
+        <form class="search-form" method="get" action="/">
+          <input
+            type="text"
+            name="q"
+            class="search-input"
+            placeholder="폴더 이름 검색 (예: Usada Holstein)"
+            value="{{ query }}"
+            autocomplete="off">
+          <input type="hidden" name="page_size" value="{{ page_size }}">
+          <button type="submit" class="btn">검색</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="list-toolbar">
+	  <div class="list-summary">
+		{% if query %}
+		  검색어 "<strong>{{ query }}</strong>" · 총 {{ total }}개 · 방식 {{ search_mode }}
+		{% else %}
+		  전체 {{ total }}개
+		{% endif %}
+	  </div>
+
+	  <div class="page-info">
+		페이지 {{ page }} / {{ total_pages }}
+	  </div>
+	</section>
+
+    {% if albums %}
+      <section class="album-grid">
+        {% for album in albums %}
+          <a class="album-card" href="{{ url_for('album_view', album_id=album.id) }}">
+            <div class="album-thumb-wrap">
+              <img
+                class="album-thumb"
+                src="{{ album.thumbnail_url }}"
+                alt="{{ album.name }}"
+                loading="lazy"
+                decoding="async">
+            </div>
+            <div class="album-meta">
+              <div class="album-name">{{ album.name }}</div>
+              <div class="album-count">{{ album.image_count }}장</div>
+            </div>
+          </a>
+        {% endfor %}
+      </section>
+    {% else %}
+      <section class="empty-state">
+        <h2>결과가 없습니다.</h2>
+        {% if query %}
+          <p>검색어를 바꾸어 다시 시도해보세요.</p>
+        {% else %}
+          <p>표시할 앨범이 없습니다.</p>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    <section class="pagination">
+	  {% if total_pages and page > 1 %}
+		<a class="btn" href="/?q={{ query }}&page=1&page_size={{ page_size }}">처음</a>
+		<a class="btn" href="/?q={{ query }}&page={{ page - 1 }}&page_size={{ page_size }}">이전</a>
+	  {% endif %}
+
+	  {% if total_pages %}
+		<span class="pagination-current">{{ page }} / {{ total_pages }}</span>
+	  {% else %}
+		<span class="pagination-current">{{ page }}</span>
+	  {% endif %}
+
+	  {% if total_pages and page < total_pages %}
+		<a class="btn" href="/?q={{ query }}&page={{ page + 1 }}&page_size={{ page_size }}">다음</a>
+		<a class="btn" href="/?q={{ query }}&page={{ total_pages }}&page_size={{ page_size }}">마지막</a>
+	  {% endif %}
+	</section>
+  </main>
+</body>
+</html>
